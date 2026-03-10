@@ -195,11 +195,13 @@ h3 {
   align-items: center;
   gap: 5px;
 }
+
 .admin-nav-btn:hover {
   background: var(--brown-dark);
   color: var(--white);
   border-color: var(--brown-dark);
 }
+
 .cart-btn {
   position: relative;
   background: var(--green-pale);
@@ -486,6 +488,13 @@ h3 {
   outline: none;
   border-color: var(--green);
   box-shadow: 0 0 0 3px rgba(74, 124, 63, 0.1);
+}
+
+.admin-table-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
 .form-row {
