@@ -73,38 +73,39 @@
 
                         <div
                             style="background:var(--white);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow-sm)">
-                            <h3 style="color:var(--brown-dark);margin-bottom:20px">💳 Payment Method</h3>
-
-                            <label class="payment-option selected" id="opt-cod">
-                                <div style="display:flex;align-items:center;gap:12px">
-                                    <input type="radio" name="payment" value="COD" checked
-                                        onchange="selectPayment('COD')">
-                                    <div>
-                                        <div style="font-weight:600">💵 Cash on Delivery</div>
-                                        <div style="font-size:0.82rem;color:var(--text-light)">Pay when you receive the
-                                            order</div>
+                            <div class="payment-grid">
+                                <div class="payment-card selected" id="opt-cod" onclick="selectPayment('COD')">
+                                    <input type="radio" name="payment" value="COD" checked id="radio-cod">
+                                    <div class="payment-card-icon">💵</div>
+                                    <div class="payment-card-info">
+                                        <div class="payment-card-title">Cash on Delivery</div>
+                                        <div class="payment-card-desc">Pay when you receive the order</div>
                                     </div>
+                                    <div class="payment-card-check">✓</div>
                                 </div>
-                            </label>
 
-                            <label class="payment-option" id="opt-upi">
-                                <div style="display:flex;align-items:center;gap:12px">
-                                    <input type="radio" name="payment" value="UPI" onchange="selectPayment('UPI')">
-                                    <div>
-                                        <div style="font-weight:600">📱 UPI Payment</div>
-                                        <div style="font-size:0.82rem;color:var(--text-light)">Pay via GPay / PhonePe /
-                                            Paytm</div>
+                                <div class="payment-card" id="opt-upi" onclick="selectPayment('UPI')">
+                                    <input type="radio" name="payment" value="UPI" id="radio-upi">
+                                    <div class="payment-card-icon">📱</div>
+                                    <div class="payment-card-info">
+                                        <div class="payment-card-title">UPI Payment</div>
+                                        <div class="payment-card-desc">GPay, PhonePe, Paytm</div>
                                     </div>
+                                    <div class="payment-card-check">✓</div>
                                 </div>
-                            </label>
+                            </div>
 
-                            <div id="upi-instructions" class="hidden alert alert-info" style="margin-top:16px">
-                                After payment, please send the screenshot to our WhatsApp.<br>
-                                📱 UPI ID: <strong>nadhitraders@upi</strong><br>
-                                🏦 Pay to: <strong>NADHI TRADERS</strong><br>
-                                After payment, note the transaction ID. We will confirm your order via WhatsApp.<br>
-                                <a href="https://wa.me/918838740081" target="_blank"
-                                    style="color:var(--brown-dark);font-weight:600">📲 Message us on WhatsApp</a>
+                            <div id="upi-instructions" class="hidden upi-box" style="margin-top:16px">
+                                <div style="font-weight:700;margin-bottom:8px;color:var(--green-dark)">📲 UPI Payment
+                                    Instructions:</div>
+                                <p style="font-size:0.9rem;margin-bottom:12px">Please pay the total amount to the UPI ID
+                                    below and send the screenshot to our WhatsApp.</p>
+                                <div class="upi-details">
+                                    <div><span>UPI ID:</span> <strong>nadhitraders@upi</strong></div>
+                                    <div><span>Name:</span> <strong>NADHI TRADERS</strong></div>
+                                </div>
+                                <a href="https://wa.me/918838740081" target="_blank" class="btn btn-whatsapp btn-sm"
+                                    style="margin-top:12px;width:auto">💬 Message WhatsApp</a>
                             </div>
                         </div>
                     </div>
@@ -146,6 +147,8 @@
 
         function selectPayment(method) {
             paymentMethod = method;
+            document.getElementById('radio-cod').checked = (method === 'COD');
+            document.getElementById('radio-upi').checked = (method === 'UPI');
             document.getElementById('opt-cod').classList.toggle('selected', method === 'COD');
             document.getElementById('opt-upi').classList.toggle('selected', method === 'UPI');
             document.getElementById('upi-instructions').classList.toggle('hidden', method !== 'UPI');
@@ -245,6 +248,98 @@
         renderSummary();
     </script>
     <style>
+        .payment-grid {
+            display: grid;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .payment-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            border: 2px solid var(--cream-dark);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .payment-card:hover {
+            border-color: var(--green-light);
+            background: #f9fdfa;
+        }
+
+        .payment-card.selected {
+            border-color: var(--green);
+            background: #f0f7f1;
+        }
+
+        .payment-card input {
+            display: none;
+        }
+
+        .payment-card-icon {
+            font-size: 1.8rem;
+        }
+
+        .payment-card-title {
+            font-weight: 700;
+            color: var(--brown-dark);
+            margin-bottom: 2px;
+        }
+
+        .payment-card-desc {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .payment-card-check {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 22px;
+            height: 22px;
+            background: var(--green);
+            color: white;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        .payment-card.selected .payment-card-check {
+            display: flex;
+        }
+
+        .upi-box {
+            background: #f0f4ff;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            border-radius: var(--radius-md);
+        }
+
+        .upi-details {
+            background: white;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            margin-top: 8px;
+            border: 1px dashed #3b82f6;
+        }
+
+        .upi-details div {
+            margin-bottom: 4px;
+            font-size: 0.95rem;
+        }
+
+        .upi-details span {
+            color: var(--text-light);
+            width: 60px;
+            display: inline-block;
+        }
+
         @media(max-width:900px) {
             #checkout-content>div {
                 grid-template-columns: 1fr !important;
