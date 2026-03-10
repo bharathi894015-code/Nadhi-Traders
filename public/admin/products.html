@@ -199,7 +199,7 @@
                     const formData = new FormData();
                     formData.append('image', fileInput.files[0]);
                     const uploaded = await API.upload(formData);
-                    imageFilename = uploaded.filename;
+                    imageFilename = uploaded.url;
                 }
 
                 const data = {
