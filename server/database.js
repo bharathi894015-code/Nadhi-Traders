@@ -158,6 +158,16 @@ const DB = {
     const res = db.prepare('INSERT INTO orders (customerName, phone, address, pincode, products, totalAmount, paymentMethod) VALUES (?, ?, ?, ?, ?, ?, ?)').run(o.customerName, o.phone, o.address, o.pincode, JSON.stringify(o.products), o.totalAmount, o.paymentMethod || 'COD');
     return db.prepare('SELECT * FROM orders WHERE id = ?').get(res.lastInsertRowid);
   },
+  async getOrderById(id) {
+    if (isSupabase) {
+      const { data } = await db.from('orders').select('*').eq('id', id).single();
+      if (data && typeof data.products === 'string') data.products = JSON.parse(data.products);
+      return data;
+    }
+    const order = db.prepare('SELECT * FROM orders WHERE id = ?').get(id);
+    if (order) order.products = JSON.parse(order.products);
+    return order;
+  },
   async adminByEmail(email) {
     if (isSupabase) {
       const { data } = await db.from('admins').select('*').eq('email', email).single();
