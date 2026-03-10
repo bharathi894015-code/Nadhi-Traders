@@ -82,4 +82,14 @@ if (count.c === 0) {
   console.log('✅ Sample products seeded.');
 }
 
+// Seed default admin if empty
+const adminCount = db.prepare('SELECT COUNT(*) as c FROM admins').get();
+if (adminCount.c === 0) {
+  const bcrypt = require('bcryptjs');
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync('admin123', salt);
+  db.prepare('INSERT INTO admins (email, password) VALUES (?, ?)').run('admin@nadhitraders.com', hash);
+  console.log('✅ Default admin seeded: admin@nadhitraders.com / admin123');
+}
+
 module.exports = db;
