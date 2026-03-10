@@ -3,10 +3,12 @@ const multer = require('multer');
 const { createClient } = require('@supabase/supabase-js');
 const router = express.Router();
 
-const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_KEY
-);
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+
+const supabase = (supabaseUrl && supabaseKey)
+    ? createClient(supabaseUrl, supabaseKey)
+    : null;
 
 // We always use memory storage for Vercel/Cloud compatibility
 const upload = multer({
@@ -16,6 +18,9 @@ const upload = multer({
 
 router.post('/', upload.single('image'), async (req, res) => {
     try {
+        if (!supabase) {
+            return res.status(500).json({ error: 'Cloud Storage not configured. Please set SUPABASE_URL and SUPABASE_KEY in Vercel settings.' });
+        }
         if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
         const file = req.file;
