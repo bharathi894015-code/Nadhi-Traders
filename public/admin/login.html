@@ -11,6 +11,12 @@
 <body style="background:var(--brown-dark);min-height:100vh;display:flex;align-items:center;justify-content:center">
 
     <div style="width:100%;max-width:400px;padding:20px;">
+        <!-- Top Back Button -->
+        <a href="/" class="btn btn-secondary btn-full"
+            style="margin-bottom:24px; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:8px; font-weight:600; padding:12px">
+            ⬅ Back to Store
+        </a>
+
         <div style="text-align:center;margin-bottom:32px">
             <div style="font-size:3rem;margin-bottom:12px">🌿</div>
             <h1 style="color:var(--cream);font-size:1.6rem;margin-bottom:4px">NADHI TRADERS</h1>
@@ -34,10 +40,13 @@
                         autocomplete="current-password">
                 </div>
                 <button type="submit" class="btn btn-primary btn-full" id="login-btn">Login to Dashboard</button>
-                <div style="text-align:right;margin-top:12px">
+
+                <div style="text-align:center;margin-top:20px">
                     <a href="https://wa.me/918838740081?text=Hi! I forgot my NADHI TRADERS admin password. Please help me reset it."
-                        target="_blank" style="font-size:0.85rem;color:var(--text-light);text-decoration:none">Forgot
-                        password?</a>
+                        target="_blank"
+                        style="display:inline-block; font-size:0.9rem; color:var(--text-light); text-decoration:none; padding:8px 16px; border:1px solid #eee; border-radius:var(--radius-sm); transition:all 0.2s">
+                        🔑 Forgot password?
+                    </a>
                 </div>
             </form>
 
@@ -49,10 +58,6 @@
                     up</a>
             </p>
         </div>
-
-        <p style="text-align:center;margin-top:20px;font-size:0.8rem">
-            <a href="/" style="color:var(--brown-light)">← Back to Store</a>
-        </p>
     </div>
 
     <script src="/js/api.js"></script>
