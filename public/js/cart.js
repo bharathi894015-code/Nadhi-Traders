@@ -104,10 +104,21 @@ function getProductImageTag(image, cssClass = 'product-card-img') {
     if (!image || image === 'default.jpg') {
         return `<div class="product-card-img-placeholder">${PRODUCT_EMOJI['default.jpg']}</div>`;
     }
-    // Check if it's an uploaded file (has timestamp) or seed file
-    const src = `/uploads/${image}`;
+
+    // 1. Check if it's already a full URL (from Supabase Cloud)
+    if (image.startsWith('http')) {
+        return `<img src="${image}" alt="Product" class="${cssClass}" onerror="this.outerHTML='<div class=\\'product-card-img-placeholder\\'>${PRODUCT_EMOJI['default.jpg']}</div>'">`;
+    }
+
+    // 2. Otherwise handle local seed items or user uploads
     const emoji = PRODUCT_EMOJI[image] || '🌿';
-    return `<img src="${src}" alt="${image}" class="${cssClass}" onerror="this.outerHTML='<div class=\\'product-card-img-placeholder\\'>${emoji}</div>'">`;
+
+    // Try /images/ first (for professional stock), then /uploads/
+    const primarySrc = `/images/${image}`;
+    const secondarySrc = `/uploads/${image}`;
+
+    return `<img src="${primarySrc}" alt="${image}" class="${cssClass}" 
+        onerror="this.onerror=null; this.src='${secondarySrc}'; this.onerror=()=>this.outerHTML='<div class=\\'product-card-img-placeholder\\'>${emoji}</div>'">`;
 }
 
 // Legacy helper – returns emoji for fallback use
